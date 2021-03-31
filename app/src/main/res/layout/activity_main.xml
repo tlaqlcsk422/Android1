@@ -116,6 +116,7 @@
     <androidx.gridlayout.widget.GridLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/gridView"
         app:columnCount="6"
         app:rowCount="7"
         app:orientation="horizontal"
@@ -123,4 +124,7 @@
 
     </androidx.gridlayout.widget.GridLayout>
 
+
 </LinearLayout>
+
+
