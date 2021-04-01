@@ -13,12 +13,14 @@ import java.util.Vector;
 
 public class DayAdapter  extends BaseAdapter {
     private final Context mContext;
+    private LayoutInflater inflater;
     //일(1~31)을 저장할 벡터
     private Vector<Integer> days = new Vector<Integer>();
 
     public DayAdapter(Context context, Vector<Integer> days) {
         this.mContext = context;
         this.days = days;
+        inflater=(LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -37,14 +39,13 @@ public class DayAdapter  extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if(convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.day_item,parent, false);
+    public View getView(int position, View View, ViewGroup parent) {
+        if(View == null) {
+            View = inflater.inflate(R.layout.day_item,parent, false);
         }
-        TextView DayTv = convertView.findViewById(R.id.Day);
-        DayTv.setText(days.get(position));
+        TextView DayTv = View.findViewById(R.id.datTV_item);
+        DayTv.setText(days.get(position)+"");
 
-        return convertView;
+        return View;
     }
 }

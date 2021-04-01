@@ -22,6 +22,8 @@ public class MonthViewActivity extends AppCompatActivity {
     int month;
     int firstDay; //시작 요일
     int allDay; //한달 일 수
+    GridView gridView;
+    DayAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,16 +105,16 @@ public class MonthViewActivity extends AppCompatActivity {
             days.add(i);
         }
 
-        //어댑터 생성
-        DayAdapter adapter= new DayAdapter(getApplicationContext(),days);
-        // 어탭터 연결
-        GridView gridView = (GridView)findViewById(R.id.gridView);
+
+        //어댑터 생성 연결
+        gridView = (GridView)findViewById(R.id.gridView);
+        adapter= new DayAdapter(this, days);
         gridView.setAdapter(adapter);
 
     }
 
 
-    void print(String message){
+    void print(Integer message){
         Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
 
     }
