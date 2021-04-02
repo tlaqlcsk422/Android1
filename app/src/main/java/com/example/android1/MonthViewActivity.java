@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
@@ -13,11 +14,13 @@ import android.widget.Toast;
 
 import com.example.android1.R;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Vector;
 
 public class MonthViewActivity extends AppCompatActivity {
 
+    private static final String TAG="month View";
     int year;
     int month;
     int firstDay; //시작 요일
@@ -90,11 +93,11 @@ public class MonthViewActivity extends AppCompatActivity {
         });
 
 
-        //gridview 일 표시
-        firstDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
-        allDay = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH);
+        //gridView 일 표시
+        firstDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK); //첫째날
+        allDay = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH);//그 달의 마지막 일
 
-        Vector<Integer> days = new Vector<Integer>();
+        ArrayList<Integer> days = new ArrayList<Integer>();
 
         for(int i=1; i<firstDay; i++){
             days.add(null);
@@ -108,12 +111,23 @@ public class MonthViewActivity extends AppCompatActivity {
         // 어탭터 연결
         GridView gridView = (GridView)findViewById(R.id.gridView);
         gridView.setAdapter(adapter);
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+
+
+            @Override
+            public void onItemClick(View view, int position) {//토스트 메시지, 뜨지 않음
+                int item=(int)(adapter.getItem(position));
+                Log.d(TAG,"클릭");
+                if(adapter.getDayText(item)!=""){//null 값일 때 출력 X
+                    print(year+"년"+month+"월"+((int)adapter.getItem(position))+"일");
+                    Log.d(TAG, year+"년"+month+"월"+((int)adapter.getItem(position))+"일");
+                }
+            }
+        });
 
     }
 
-
     void print(String message){
         Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
-
     }
 }
