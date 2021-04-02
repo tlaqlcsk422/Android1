@@ -129,7 +129,7 @@ public class MonthViewActivity extends AppCompatActivity {
 
     }
 
-    void print(Integer message){
+    void print(String message){
         Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
 }
