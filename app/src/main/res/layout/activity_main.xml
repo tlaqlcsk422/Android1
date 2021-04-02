@@ -113,16 +113,14 @@
 
     </LinearLayout>
 
-    <androidx.gridlayout.widget.GridLayout
+    <GridView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/gridView"
-        app:columnCount="6"
-        app:rowCount="7"
-        app:orientation="horizontal"
-        >
+        android:numColumns="7">
 
-    </androidx.gridlayout.widget.GridLayout>
+
+    </GridView>
 
 
 </LinearLayout>
