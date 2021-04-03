@@ -2,21 +2,23 @@ package com.example.android1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.android1.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Vector;
+import java.util.Date;
+
 
 public class MonthViewActivity extends AppCompatActivity {
 
@@ -25,8 +27,6 @@ public class MonthViewActivity extends AppCompatActivity {
     int month;
     int firstDay; //시작 요일
     int allDay; //한달 일 수
-    GridView gridView;
-    DayAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,8 +96,24 @@ public class MonthViewActivity extends AppCompatActivity {
 
 
         //gridView 일 표시
-        firstDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK); //첫째날
-        allDay = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH);//그 달의 마지막 일
+        String date=(month+1)+"/"+"01/"+year;
+        String pattern ="MM/dd/yyyy";
+        Date selDate= null;
+        try {
+            selDate = new SimpleDateFormat(pattern).parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar c=Calendar.getInstance();
+        c.setTime(selDate);
+        String test="실패";
+        if(selDate!=null)
+        {
+            test="성공";
+        }
+
+        firstDay = c.get(Calendar.DAY_OF_WEEK); //첫째날
+        allDay = c.getActualMaximum(Calendar.DAY_OF_MONTH);//그 달의 마지막 일
 
         ArrayList<Integer> days = new ArrayList<Integer>();
 
@@ -108,23 +124,29 @@ public class MonthViewActivity extends AppCompatActivity {
             days.add(i);
         }
 
+        Log.d(TAG,test+": "+date+", "+days.size());
 
-        //어댑터 생성 연결
-        gridView = (GridView)findViewById(R.id.gridView);
-        adapter= new DayAdapter(this, days);
+        for(int i=0;i<days.size();i++){
+            Log.d(TAG,i+". "+days.get(i)+"");
+        }
+
+        //어댑터 생성
+        DayAdapter adapter= new DayAdapter(getApplicationContext(),days);
+        // 어탭터 연결
+        GridView gridView = (GridView)findViewById(R.id.gridView);
         gridView.setAdapter(adapter);
-        adapter.setOnItemClickListener(new OnItemClickListener() {
 
-
+        adapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {//토스트 메시지, 뜨지 않음
-                int item=(int)(adapter.getItem(position));
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {//토스트 메시지, 뜨지 않음
+                //int item=(int)(adapter.getItem(position));
                 Log.d(TAG,"클릭");
-                if(adapter.getDayText(item)!=""){//null 값일 때 출력 X
+                if(adapter.getItem(position)!=null){//null 값일 때 출력 X
                     print(year+"년"+month+"월"+((int)adapter.getItem(position))+"일");
                     Log.d(TAG, year+"년"+month+"월"+((int)adapter.getItem(position))+"일");
                 }
             }
+
         });
 
     }
