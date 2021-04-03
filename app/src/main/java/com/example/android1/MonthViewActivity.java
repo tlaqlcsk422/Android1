@@ -126,29 +126,20 @@ public class MonthViewActivity extends AppCompatActivity {
 
         Log.d(TAG,test+": "+date+", "+days.size());
 
-        for(int i=0;i<days.size();i++){
-            Log.d(TAG,i+". "+days.get(i)+"");
-        }
-
         //어댑터 생성
-        DayAdapter adapter= new DayAdapter(getApplicationContext(),days);
+        DayAdapter adapter= new DayAdapter(getApplicationContext(),days,year,month);
         // 어탭터 연결
         GridView gridView = (GridView)findViewById(R.id.gridView);
         gridView.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*adapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {//토스트 메시지, 뜨지 않음
                 //int item=(int)(adapter.getItem(position));
-                Log.d(TAG,"클릭");
-                if(adapter.getItem(position)!=null){//null 값일 때 출력 X
-                    print(year+"년"+month+"월"+((int)adapter.getItem(position))+"일");
-                    Log.d(TAG, year+"년"+month+"월"+((int)adapter.getItem(position))+"일");
+
                 }
             }
-
-        });
-
+        });*/
     }
 
     void print(String message){
