@@ -1,6 +1,7 @@
 package com.example.android1;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class DayAdapter  extends BaseAdapter implements OnItemClickListener{
 
@@ -69,11 +71,30 @@ public class DayAdapter  extends BaseAdapter implements OnItemClickListener{
 
         TextView dayTv = view.findViewById(R.id.day);//시작 문자는 대문자 X 소문자로 시작
 
-
         if(items.get(position) == null) {//null 확인 후에 공백 문자 넣음
             dayTv.setText("");
         } else {
             dayTv.setText(items.get(position) + "");//String 으로 해야해서 +"" 추가함
+
+            //일요일 빨간색 표시
+            if(position % 7 == 0)
+                dayTv.setTextColor(Color.RED);
+
+            //토요일 파란색 표시
+            if(position % 7 == 6)
+                dayTv.setTextColor(Color.BLUE);
+
+            //오늘 날짜 받아오기
+            Calendar cal = Calendar.getInstance();
+            int nowYear = cal.get(Calendar.YEAR);
+            int nowMonth = cal.get(Calendar.MONTH);
+            nowMonth++;
+            int date = cal.get(Calendar.DATE);
+
+            //달력에 오늘 날짜 표시하기
+            if(nowYear == year && nowMonth == month && date == items.get(position) ){
+                dayTv.setBackgroundColor(Color.YELLOW);
+            }
         }
         Log.d(TAG, items.get(position) + ", "+dayTv.getText());
 
@@ -87,6 +108,7 @@ public class DayAdapter  extends BaseAdapter implements OnItemClickListener{
                 }
             }
         });
+
         return view;
     }
 
